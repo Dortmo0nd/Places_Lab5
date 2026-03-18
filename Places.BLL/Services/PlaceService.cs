@@ -1,0 +1,78 @@
+using Places.Abstract;
+using Places.BLL.DTO;
+using Places.BLL.Interfaces;
+using Places.BLL.Mappers;
+
+namespace Places.BLL.Services;
+
+public class PlaceService : IPlaceService
+{
+    private readonly PlaceMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public PlaceService(IUnitOfWork unitOfWork, PlaceMapper mapper)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+    }
+
+    public PlaceDTO GetPlaceById(int id)
+    {
+        var place = _unitOfWork.PlaceRepository
+            .Find(p => p.Id == id)
+            .FirstOrDefault();
+        if (place == null) return null;
+
+        var placeWithIncludes = _unitOfWork.PlaceRepository
+            .GetWithInclude(p => p.Reviews, p => p.Questions, p => p.MediaFiles)
+            .FirstOrDefault(p => p.Id == id);
+
+        var placeDto = _mapper.ToDto(placeWithIncludes);
+        placeDto.Reviews = placeWithIncludes.Reviews.Select(r => new ReviewMapper().ToDto(r)).ToList();
+        placeDto.Questions = placeWithIncludes.Questions.Select(q => new QuestionMapper().ToDto(q)).ToList();
+        placeDto.MediaFiles = placeWithIncludes.MediaFiles.Select(m => new MediaMapper().ToDto(m)).ToList();
+        return placeDto;
+    }
+
+    public IEnumerable<PlaceDTO> GetAllPlaces()
+    {
+        var places = _unitOfWork.PlaceRepository.GetAll();
+        return places.Select(p => _mapper.ToDto(p));
+    }
+
+    public void AddPlace(PlaceDTO placeDto)
+    {
+        if (placeDto == null || string.IsNullOrEmpty(placeDto.Name) || string.IsNullOrEmpty(placeDto.Description))
+            throw new ArgumentException("Invalid place data: Name and Description are required");
+
+        var place = _mapper.ToEntity(placeDto);
+        _unitOfWork.PlaceRepository.Add(place);
+        _unitOfWork.SaveChanges();
+    }
+
+    public void UpdatePlace(PlaceDTO placeDto)
+    {
+        if (placeDto == null || string.IsNullOrEmpty(placeDto.Name))
+            throw new ArgumentException("Invalid place data");
+
+        var place = _mapper.ToEntity(placeDto);
+        _unitOfWork.PlaceRepository.Update(place);
+        _unitOfWork.SaveChanges();
+    }
+
+    public void DeletePlace(int id)
+    {
+        var place = _unitOfWork.PlaceRepository.GetById(id);
+        if (place != null)
+        {
+            _unitOfWork.PlaceRepository.Delete(place);
+            _unitOfWork.SaveChanges();
+        }
+    }
+
+    public PlaceDTO GetPlaceByName(string name)
+    {
+        var place = _unitOfWork.PlaceRepository.Find(p => p.Name == name).FirstOrDefault();
+        return _mapper.ToDto(place);
+    }
+}

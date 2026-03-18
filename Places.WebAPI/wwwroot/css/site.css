@@ -1,0 +1,103 @@
+.btn {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.user-index {
+    margin: 20px;
+}
+.user-index h2 {
+    color: #333;
+}
+.user-index table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.user-index th, .user-index td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-details {
+    margin: 20px;
+}
+.user-details h2 {
+    color: #333;
+}
+.user-details dl {
+    margin-top: 20px;
+}
+
+.places-index {
+    margin: 20px;
+}
+.places-index h2 {
+    color: #333;
+}
+.places-index table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.places-index th, .places-index td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.media-index {
+    margin: 20px;
+}
+.media-index h2 {
+    color: #333;
+}
+.media-index table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.media-index th, .media-index td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.wide-select {
+    width: 1000px; 
+}

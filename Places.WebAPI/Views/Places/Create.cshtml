@@ -1,0 +1,34 @@
+@model Places.BLL.DTO.PlaceDTO
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Create Place";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="/Places/Create" method="post">
+    @Html.AntiForgeryToken()
+    <label for="Name">Ім'я:</label>
+    <input name="Name" id="Name" type="text" />
+    <br/>
+    <label for="Description">Опис:</label>
+    <input name="Description" id="Description" type="text" />
+    <br/>
+    <label for="Latitude">Широта:</label>
+    <input name="Latitude" id="Latitude" type="text" />
+    <br/>
+    <label for="Longitude">Довгота:</label>
+    <input name="Longitude" id="Longitude" type="text" />
+    <br/>
+    <button type="submit">Create</button>
+</form>

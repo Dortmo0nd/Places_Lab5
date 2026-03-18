@@ -1,0 +1,49 @@
+{"header" : {
+  "cloc_url"           : "github.com/AlDanial/cloc",
+  "cloc_version"       : "2.08",
+  "elapsed_seconds"    : 0.126837968826294,
+  "n_files"            : 37,
+  "n_lines"            : 1346,
+  "files_per_second"   : 291.710757767431,
+  "lines_per_second"   : 10611.9643231071,
+  "report_file"        : "cloc_report_BLL.json"},
+"C#" :{
+  "nFiles": 27,
+  "blank": 118,
+  "comment": 2,
+  "code": 671},
+"JSON" :{
+  "nFiles": 4,
+  "blank": 0,
+  "comment": 0,
+  "code": 451},
+"MSBuild script" :{
+  "nFiles": 1,
+  "blank": 6,
+  "comment": 0,
+  "code": 27},
+"Text" :{
+  "nFiles": 1,
+  "blank": 0,
+  "comment": 0,
+  "code": 17},
+"XML" :{
+  "nFiles": 2,
+  "blank": 0,
+  "comment": 0,
+  "code": 17},
+"INI" :{
+  "nFiles": 1,
+  "blank": 0,
+  "comment": 0,
+  "code": 15},
+"C# Generated" :{
+  "nFiles": 1,
+  "blank": 4,
+  "comment": 9,
+  "code": 9},
+"SUM": {
+  "blank": 128,
+  "comment": 11,
+  "code": 1207,
+  "nFiles": 37} }

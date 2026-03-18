@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Places.BLL
 {
-    internal class NewFeature
+    public class NewFeature
     {
+        public string GetStatus() => "Feature is working!";
     }
 }

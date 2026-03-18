@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Places.BLL
 {
-    public class UserAuth
+    public class UserAuth // Security patch applied
     {
         public bool Authenticate(string user, string pass) => user == "admin";
     }

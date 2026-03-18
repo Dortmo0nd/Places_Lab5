@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Реєстрація</title>
+</head>
+<body>
+<h2>Реєстрація</h2>
+<form method="post" >
+    @Html.AntiForgeryToken()
+    <div>
+        <label for="Full_name">Повне ім'я:</label>
+        <input type="text" id="Full_name" name="Full_name" value="" />
+    </div>
+    <div>
+        <label for="Password">Пароль:</label>
+        <input type="password" id="Password" name="Password" value="" />
+    </div>
+    <div>
+        <label for="Role">Роль:</label>
+        <input type="text" id="Role" name="Role" value="Visitor" />
+    </div>
+    <button type="submit">Зареєструватися</button>
+</form>
+</body>
+</html>

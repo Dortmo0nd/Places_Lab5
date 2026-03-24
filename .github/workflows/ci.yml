@@ -63,6 +63,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      # ДОДАНО: Встановлюємо .NET для цієї віртуальної машини
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # ДОДАНО: Встановлюємо Java 17, яка необхідна для SonarScanner
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Count lines of code with Cloc
         run: |
           sudo apt-get install -y cloc
@@ -73,20 +86,23 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          # 1. Встановлюємо сканер для .NET
+          # 1. Встановлюємо інструмент
           dotnet tool install --global dotnet-sonarscanner
           
-          # 2. Автоматично знаходимо файл рішення (.sln)
+          # 2. Знаходимо файл рішення (.sln)
           SLN_PATH=$(find . -name "*.sln" | head -n 1)
           echo "Found solution at: $SLN_PATH"
           
-          # 3. ПОЧАТОК АНАЛІЗУ (Твої параметри тут)
-          # /k: - це твій projectKey
-          # /d:sonar.host.url - це твій сервер
-          dotnet-sonarscanner begin /k:"Dortmo0nd_Places_Lab5" /o:"dortmo0nd" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          # 3. Видаляємо конфліктні файли
+          find . -name "sonar-project.properties" -delete
           
-          # 4. ОБОВ'ЯЗКОВИЙ БІЛД (без нього Sonar не побачить код C#)
+          # 4. Починаємо аналіз (УВАГА: dotnet sonarscanner пишеться через пробіл!)
+          dotnet sonarscanner begin /k:"Dortmo0nd_Places_Lab5" /o:"dortmo0nd" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          
+          # 5. Білдимо проєкт
           dotnet build "$SLN_PATH" --configuration Release
           
+          # 6. Завершуємо аналіз (через пробіл!)
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           # 5. ЗАВЕРШЕННЯ АНАЛІЗУ (відправка даних на сервер)
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

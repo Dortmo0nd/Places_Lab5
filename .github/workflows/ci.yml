@@ -84,21 +84,23 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          # 1. Встановлюємо інструмент
+          # 1. Жорстко видаляємо всі папки bin та obj, якщо вони є в репозиторії
+          find . -type d \( -name "bin" -o -name "obj" \) -exec rm -rf {} +
+          
+          # 2. Встановлюємо інструмент
           dotnet tool install --global dotnet-sonarscanner
           
-          # 2. Знаходимо файл рішення (.sln)
+          # 3. Знаходимо файл рішення (.sln)
           SLN_PATH=$(find . -name "*.sln" | head -n 1)
-          echo "Found solution at: $SLN_PATH"
           
-          # 3. Повністю очищаємо проєкт від попередніх артефактів
-          dotnet clean "$SLN_PATH"
+          # 4. Відновлюємо залежності на чисту
+          dotnet restore "$SLN_PATH"
           
-          # 4. Починаємо аналіз
+          # 5. Починаємо аналіз
           dotnet sonarscanner begin /k:"Dortmo0nd_Places_Lab5" /o:"dortmo0nd" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
-          # 5. Просто білдимо проєкт (він сам зробить restore і збере в Debug)
-          dotnet build "$SLN_PATH"
+          # 6. Білдимо проєкт (забороняємо використовувати інкрементальний кеш)
+          dotnet build "$SLN_PATH" --no-restore --no-incremental
           
-          # 6. Завершуємо аналіз
+          # 7. Завершуємо аналіз
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

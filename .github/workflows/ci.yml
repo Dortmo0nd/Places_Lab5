@@ -75,5 +75,5 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet-sonarscanner begin /k:"Dortmo0nd_Places_Lab5" /o:"dortmo0nd" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build --no-incremental
+          dotnet build Places.sln --no-incremental
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

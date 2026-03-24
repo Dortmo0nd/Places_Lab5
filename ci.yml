@@ -34,7 +34,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Перевірка наявності схваленого код-рев’ю
+      - name: Check for approved code review
         uses: actions/github-script@v6
         with:
           script: |
@@ -46,5 +46,5 @@ jobs:
             });
             const approved = reviews.some(review => review.state === 'APPROVED');
             if (!approved) {
-              core.setFailed("Код-рев’ю не схвалено");
+              core.setFailed("Code review not approved. Please get an Approve!");
             }

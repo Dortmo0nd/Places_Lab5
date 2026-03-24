@@ -73,7 +73,17 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          # 1. Встановлюємо інструмент
           dotnet tool install --global dotnet-sonarscanner
+          
+          # 2. Видаляємо старі налаштування, якщо вони є в проекті, щоб не було конфліктів
+          find . -name "sonar-project.properties" -delete
+          
+          # 3. Починаємо аналіз, явно вказуючи назву проекту
           dotnet-sonarscanner begin /k:"Dortmo0nd_Places_Lab5" /o:"dortmo0nd" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build Places.sln --no-incremental
+          
+          # 4. Білдимо саме файл рішення (.sln)
+          dotnet build Places.sln --configuration Release
+          
+          # 5. Завершуємо аналіз
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
